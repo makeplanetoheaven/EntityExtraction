@@ -19,11 +19,11 @@ HEADER = {'Cookie': 'AD_RS_COOKIE=20080917',
                         'Chrome/58.0.3029.110 Safari/537.36'}
 
 
-def get_province(province_dict):
+def get_province(province_dict: dict):
     """
     获取全国省份和直辖市
-    :param province_dict: 用来存储所包含省的字典
-    :return:
+    :param province_dict: 用来存储包含省的字典
+    :return: None
     """
     print('获取【省/直辖市】----------')
     http = GetHttp(URL, HEADER)
@@ -36,11 +36,11 @@ def get_province(province_dict):
                 province_dict[link_id] = {'id': link_id, 'name': a.text}
 
 
-def get_city(province_dict):
+def get_city(province_dict: dict):
     """
     获取每所有省的下级市
-    :param province_dict:用来存储所包含省的字典
-    :return:
+    :param province_dict: 用来存储包含省的字典
+    :return: None
     """
     print('获取【市/市辖区】----------')
     for province_id in province_dict:
@@ -58,11 +58,11 @@ def get_city(province_dict):
         province_dict[province_id]['city'] = city_dict
 
 
-def get_county(province_dict):
+def get_county(province_dict: dict):
     """
     获取所有市的下级县区
-    :param province_dict:用来存储所包含省的字典
-    :return:
+    :param province_dict: 用来存储包含省的字典
+    :return: None
     """
     print('获取【县/区】----------')
     for province_id in province_dict:
@@ -83,11 +83,11 @@ def get_county(province_dict):
             city_dict[city_id]['county'] = county_dict
 
 
-def get_town(province_dict):
+def get_town(province_dict: dict):
     """
     获取县区的下级镇、街道
-    :param province_dict:
-    :return:
+    :param province_dict: 用来存储包含省的字典
+    :return: None
     """
     print('获取【镇/乡/办事处/街道】----------')
     for province_id in province_dict:
@@ -109,7 +109,12 @@ def get_town(province_dict):
                 county_dict[county_id]['town'] = town_dict
 
 
-def get_village(province_dict):
+def get_village(province_dict: dict):
+    """
+    获取镇、街道下级的村、委员会
+    :param province_dict: 用来存储包含省的字典
+    :return: None
+    """
     # 镇下级村
     print('获取【村/委员会】----------')
     for province_id in province_dict:
