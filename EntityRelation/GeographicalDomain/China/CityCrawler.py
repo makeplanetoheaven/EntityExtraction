@@ -144,7 +144,7 @@ def format_conversion (province_dict: dict) -> [list, list]:
 	entity_rel = []
 
 	# 国家与省关系
-	shoudu = True
+	shou_du = True
 	for province_id in province_dict:
 		province = province_dict[province_id]
 		province_type = '省份'
@@ -154,13 +154,25 @@ def format_conversion (province_dict: dict) -> [list, list]:
 			province_type = '自治区'
 		entity_info.append({'type': province_type, 'property': {'name': province['name'], '域': '地理位置域'}})
 		entity_rel.append(['中国', {'name': '包含', 'property': {}}, province['name']])
-		if shoudu:
-			shoudu = False
+		if shou_du:
+			shou_du = False
 			entity_rel.append(['中国', {'name': '首都', 'property': {}}, province['name']])
 		entity_rel.append([province['name'], {'name': '属于', 'property': {}}, '中国'])
 
 		# 省与市关系
+		sheng_hui = True
 		for city_id in province['city']:
 			city = province['city'][city_id]
+			city_type = '市'
+			if '市辖区' in province['name']:
+				city_type = '市辖区'
+			elif '自治州' in province['name']:
+				city_type = '自治州'
+			entity_info.append({'type': city_type, 'property': {'name': city['name'], '域': '地理位置域'}})
+			entity_rel.append([province['name'], {'name': '包含', 'property': {}}, city['name']])
+			if sheng_hui:
+				sheng_hui = False
+				entity_rel.append([province['name'], {'name': '省会', 'property': {}}, city['name']])
+			entity_rel.append([city['name'], {'name': '属于', 'property': {}}, province['name']])
 
 	return entity_info, entity_rel
