@@ -39,7 +39,16 @@ class GetHttp:
 			"Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/535.24 (KHTML, like Gecko) Chrome/19.0.1055.1 Safari/535.24",
 			"Mozilla/5.0 (Windows NT 6.2; WOW64) AppleWebKit/535.24 (KHTML, like Gecko) Chrome/19.0.1055.1 Safari/535.24"]
 
-	def get_page_content (self, url, timeout, proxy=None, num_retries=6, charset='gbk'):
+	def get_page_content (self, url, timeout, proxy=None, num_retries=6, charset='gbk')->str:
+		"""
+		通过指定url地址获取网页内容
+		:param url: 网址
+		:param timeout: 超时时间设置
+		:param proxy: 代理
+		:param num_retries: 重试次数
+		:param charset: 编码格式
+		:return: 爬取到的网页内容
+		"""
 		ua = random.choice(self.user_agent_list)  # 从user_agent_list中随机抽取出一个字符串
 
 		header = {"User-Agent": ua}  # 构造一个完整的User_Agent

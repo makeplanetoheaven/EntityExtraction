@@ -13,7 +13,7 @@ class Neo4j:
         self.graph = Graph(host=ip, password=password, user=user, http_port=http_port, https_port=https_port,
                            bolt_port=bolt_port)
 
-    def crate_graph(self, entity_info: list, entity_rel: list):
+    def crate_graph(self, entity_info: list, entity_rel: list)->None:
         """
         根据所传入的实体信息链表和实体关系三元组链表，构建子图，并存储到Neo4j
         :param entity_info: element: {type: str, property: dict}
