@@ -136,8 +136,8 @@ def format_conversion (province_dict: dict) -> [list, list]:
 	:return: entity_info, entity_rel
 	"""
 	print('开始转换格式------')
-	entity_info = [{'type': '国家', 'property': {'name': '中国', '域': '地理位置域'}}]
-	entity_index = {'中国': 0}
+	entity_info = [{'type': '国家', 'property': {'name': '中国', '域': '地理位置域', 'id': 'CNC0'}}]
+	entity_index = {'CNC0': 0}
 	index = 1
 	entity_rel = []
 
@@ -150,14 +150,15 @@ def format_conversion (province_dict: dict) -> [list, list]:
 			province_type = '直辖市'
 		elif '自治区' in province['name']:
 			province_type = '自治区'
-		entity_info.append({'type': province_type, 'property': {'name': province['name'], '域': '地理位置域'}})
-		entity_index[province['name']] = index
+		entity_info.append(
+			{'type': province_type, 'property': {'name': province['name'], '域': '地理位置域', 'id': 'CNC' + province['id']}})
+		entity_index['CNC' + province['id']] = index
 		index += 1
-		entity_rel.append(['中国', {'name': '包含', 'property': {}}, province['name']])
+		entity_rel.append(['CNC0', {'name': '包含', 'property': {}}, 'CNC' + province['id']])
 		if shou_du:
 			shou_du = False
-			entity_rel.append(['中国', {'name': '首都', 'property': {}}, province['name']])
-		entity_rel.append([province['name'], {'name': '属于', 'property': {}}, '中国'])
+			entity_rel.append(['CNC0', {'name': '首都', 'property': {}}, 'CNC' + province['id']])
+		entity_rel.append(['CNC' + province['id'], {'name': '属于', 'property': {}}, 'CNC0'])
 
 		# 省与市关系
 		sheng_hui = True
@@ -172,14 +173,15 @@ def format_conversion (province_dict: dict) -> [list, list]:
 				city_type = '地区'
 			elif '直辖县' in city['name']:
 				city_type = '直辖县'
-			entity_info.append({'type': city_type, 'property': {'name': city['name'], '域': '地理位置域'}})
-			entity_index[city['name']] = index
+			entity_info.append(
+				{'type': city_type, 'property': {'name': city['name'], '域': '地理位置域', 'id': 'CNC' + city['id']}})
+			entity_index['CNC' + city['id']] = index
 			index += 1
-			entity_rel.append([province['name'], {'name': '包含', 'property': {}}, city['name']])
+			entity_rel.append(['CNC' + province['id'], {'name': '包含', 'property': {}}, 'CNC' + city['id']])
 			if sheng_hui:
 				sheng_hui = False
-				entity_rel.append([province['name'], {'name': '省会', 'property': {}}, city['name']])
-			entity_rel.append([city['name'], {'name': '属于', 'property': {}}, province['name']])
+				entity_rel.append(['CNC' + province['id'], {'name': '省会', 'property': {}}, 'CNC' + city['id']])
+			entity_rel.append(['CNC' + city['id'], {'name': '属于', 'property': {}}, 'CNC' + province['id']])
 
 			# 市与县关系
 			for county_id in city['county']:
@@ -191,11 +193,12 @@ def format_conversion (province_dict: dict) -> [list, list]:
 					county_type = '自治县'
 				elif '市' in county['name']:
 					county_type = '县级市'
-				entity_info.append({'type': county_type, 'property': {'name': county['name'], '域': '地理位置域'}})
-				entity_index[county['name']] = index
+				entity_info.append({'type': county_type,
+				                    'property': {'name': county['name'], '域': '地理位置域', 'id': 'CNC' + county['id']}})
+				entity_index['CNC' + county['id']] = index
 				index += 1
-				entity_rel.append([city['name'], {'name': '包含', 'property': {}}, county['name']])
-				entity_rel.append([county['name'], {'name': '属于', 'property': {}}, city['name']])
+				entity_rel.append(['CNC' + city['id'], {'name': '包含', 'property': {}}, 'CNC' + county['id']])
+				entity_rel.append(['CNC' + county['id'], {'name': '属于', 'property': {}}, 'CNC' + city['id']])
 
 				# 县与镇关系
 				for town_id in county['town']:
@@ -207,11 +210,12 @@ def format_conversion (province_dict: dict) -> [list, list]:
 						town_type = '街道'
 					elif '开发区' in town['name']:
 						town_type = '开发区'
-					entity_info.append({'type': town_type, 'property': {'name': town['name'], '域': '地理位置域'}})
-					entity_index[town['name']] = index
+					entity_info.append(
+						{'type': town_type, 'property': {'name': town['name'], '域': '地理位置域', 'id': 'CNC' + town['id']}})
+					entity_index['CNC' + town['id']] = index
 					index += 1
-					entity_rel.append([county['name'], {'name': '包含', 'property': {}}, town['name']])
-					entity_rel.append([town['name'], {'name': '属于', 'property': {}}, county['name']])
+					entity_rel.append(['CNC' + county['id'], {'name': '包含', 'property': {}}, 'CNC' + town['id']])
+					entity_rel.append(['CNC' + town['id'], {'name': '属于', 'property': {}}, 'CNC' + county['id']])
 
 					# 镇与村关系
 					for village_id in town['village']:
@@ -219,11 +223,12 @@ def format_conversion (province_dict: dict) -> [list, list]:
 						village_type = '村'
 						if '委员会' in village['name']:
 							village_type = '委员会'
-						entity_info.append({'type': village_type, 'property': {'name': village['name'], '域': '地理位置域'}})
-						entity_index[village['name']] = index
+						entity_info.append({'type': village_type, 'property': {'name': village['name'], '域': '地理位置域',
+						                                                       'id': 'CNC' + village['id']}})
+						entity_index['CNC' + village['id']] = index
 						index += 1
-						entity_rel.append([town['name'], {'name': '包含', 'property': {}}, village['name']])
-						entity_rel.append([village['name'], {'name': '属于', 'property': {}}, town['name']])
+						entity_rel.append(['CNC' + town['id'], {'name': '包含', 'property': {}}, 'CNC' + village['id']])
+						entity_rel.append(['CNC' + village['id'], {'name': '属于', 'property': {}}, 'CNC' + town['id']])
 
 	print('中国一共有' + str(index - 1) + '个城市')
 	# 序号转换
