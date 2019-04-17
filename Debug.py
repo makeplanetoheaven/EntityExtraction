@@ -6,9 +6,11 @@ import gc
 
 # 引入内部库
 from EntityRelation.GeographicalDomain.China.CityCrawler import *
+from EntityInformation.BaiduEncyclopedia import *
 
 
-if __name__ == '__main__':
+def cnc_entity_rel_extract ():
+	# 实体关系抽取
 	result_dict = {}
 	get_province(result_dict)
 	get_city(result_dict)
@@ -24,3 +26,13 @@ if __name__ == '__main__':
 		json.dump(entity_info, file_object, ensure_ascii=False, indent=2)
 	with open('./CacheData/EntityRel.json', 'w', encoding='utf-8') as file_object:
 		json.dump(entity_rel, file_object, ensure_ascii=False, indent=2)
+
+def cnc_entity_info_extract ():
+	# 实体信息抽取
+	with open('./CacheData/GeographicalDomain/China/City/EntityInfo.json', 'r', encoding='utf-8') as file_object:
+		entity_info_list = json.load(file_object)
+
+	entity_info_extract(entity_info_list[0]['property'])
+
+if __name__ == '__main__':
+	cnc_entity_info_extract()

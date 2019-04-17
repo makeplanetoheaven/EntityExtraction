@@ -223,6 +223,8 @@ def format_conversion (province_dict: dict) -> [list, list]:
 						village_type = '村'
 						if '委员会' in village['name']:
 							village_type = '委员会'
+						elif '居委会' in village['name']:
+							village_type = '居委会'
 						entity_info.append({'type': village_type, 'property': {'name': village['name'], '域': '地理位置域',
 						                                                       'id': 'CNC' + village['id']}})
 						entity_index['CNC' + village['id']] = index
