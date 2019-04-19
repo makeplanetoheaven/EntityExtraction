@@ -9,8 +9,11 @@ from EntityRelation.GeographicalDomain.China.CityCrawler import *
 from EntityInformation.BaiduEncyclopedia import *
 
 
-def cnc_entity_rel_extract ():
-	# 实体关系抽取
+def cnc_entity_rel_extract () -> None:
+	"""
+	实体关系抽取
+	:return: None
+	"""
 	result_dict = {}
 	get_province(result_dict)
 	get_city(result_dict)
@@ -22,17 +25,26 @@ def cnc_entity_rel_extract ():
 	del result_dict
 	gc.collect()
 
-	with open('./CacheData/EntityInfo.json', 'w', encoding='utf-8') as file_object:
+	with open('./CacheData/GeographicalDomain/China/City/EntityInfo.json', 'w', encoding='utf-8') as file_object:
 		json.dump(entity_info, file_object, ensure_ascii=False, indent=2)
-	with open('./CacheData/EntityRel.json', 'w', encoding='utf-8') as file_object:
+	with open('./CacheData/GeographicalDomain/China/City/EntityInfo.json', 'w', encoding='utf-8') as file_object:
 		json.dump(entity_rel, file_object, ensure_ascii=False, indent=2)
 
-def cnc_entity_info_extract ():
-	# 实体信息抽取
+
+def cnc_entity_info_extract () -> None:
+	"""
+	实体信息抽取（无多义词）
+	:return: None
+	"""
 	with open('./CacheData/GeographicalDomain/China/City/EntityInfo.json', 'r', encoding='utf-8') as file_object:
 		entity_info_list = json.load(file_object)
 
-	entity_info_extract(entity_info_list[0]['property'])
+	for entity_info in entity_info_list:
+		entity_info_extract(entity_info['property'])
+
+	with open('./CacheData/GeographicalDomain/China/City/EntityInfo.json', 'w', encoding='utf-8') as file_object:
+		json.dump(entity_info_list, file_object, ensure_ascii=False, indent=2)
+
 
 if __name__ == '__main__':
 	cnc_entity_info_extract()

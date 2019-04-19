@@ -107,7 +107,7 @@ def get_village (province_dict: dict) -> None:
 	:return: None
 	"""
 	# 镇下级村
-	print('获取【村/委员会】')
+	print('获取【村/社区】')
 	for province_id in province_dict:
 		for city_id in province_dict[province_id]['city']:
 			for county_id in province_dict[province_id]['city'][city_id]['county']:
@@ -136,7 +136,7 @@ def format_conversion (province_dict: dict) -> [list, list]:
 	:return: entity_info, entity_rel
 	"""
 	print('开始转换格式------')
-	entity_info = [{'type': '国家', 'property': {'name': '中国', '域': '地理位置域', 'id': 'CNC0'}}]
+	entity_info = [{'type': '国家', 'property': {'name': '中华人民共和国', '域': '地理位置域', 'id': 'CNC0'}}]
 	entity_index = {'CNC0': 0}
 	index = 1
 	entity_rel = []
@@ -210,8 +210,9 @@ def format_conversion (province_dict: dict) -> [list, list]:
 						town_type = '街道'
 					elif '开发区' in town['name']:
 						town_type = '开发区'
-					entity_info.append(
-						{'type': town_type, 'property': {'name': town['name'], '域': '地理位置域', 'id': 'CNC' + town['id']}})
+					entity_info.append({'type': town_type,
+					                    'property': {'name': town['name'].replace('办事处', ''), '域': '地理位置域',
+					                                 'id': 'CNC' + town['id']}})
 					entity_index['CNC' + town['id']] = index
 					index += 1
 					entity_rel.append(['CNC' + county['id'], {'name': '包含', 'property': {}}, 'CNC' + town['id']])
@@ -221,12 +222,11 @@ def format_conversion (province_dict: dict) -> [list, list]:
 					for village_id in town['village']:
 						village = town['village'][village_id]
 						village_type = '村'
-						if '委员会' in village['name']:
-							village_type = '委员会'
-						elif '居委会' in village['name']:
-							village_type = '居委会'
-						entity_info.append({'type': village_type, 'property': {'name': village['name'], '域': '地理位置域',
-						                                                       'id': 'CNC' + village['id']}})
+						if '社区' in village['name']:
+							village_type = '社区'
+						entity_info.append({'type': village_type, 'property': {
+							'name': village['name'].replace('村委会', '').replace('居委会', '').replace('居民委员会', '').replace('居民委会', ''),
+							'域': '地理位置域', 'id': 'CNC' + village['id']}})
 						entity_index['CNC' + village['id']] = index
 						index += 1
 						entity_rel.append(['CNC' + town['id'], {'name': '包含', 'property': {}}, 'CNC' + village['id']])
