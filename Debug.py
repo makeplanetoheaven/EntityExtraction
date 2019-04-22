@@ -1,5 +1,6 @@
 # coding=utf-8
 
+
 # 引入外部库
 import json
 import gc
@@ -7,6 +8,7 @@ import gc
 # 引入内部库
 from EntityRelation.GeographicalDomain.China.CityCrawler import *
 from EntityInformation.BaiduEncyclopedia import *
+from Neo4j.Neo4j import *
 
 
 def cnc_entity_rel_extract () -> None:
@@ -46,5 +48,17 @@ def cnc_entity_info_extract () -> None:
 		json.dump(entity_info_list, file_object, ensure_ascii=False, indent=2)
 
 
+def cnc_save () -> None:
+	with open('./conn_info.json', 'r', encoding='utf-8') as file_object:
+		conn = json.load(file_object)
+	with open('./CacheData/GeographicalDomain/China/City/EntityInfo.json', 'r', encoding='utf-8') as file_object:
+		entity_info = json.load(file_object)
+	with open('./CacheData/GeographicalDomain/China/City/EntityInfo.json', 'r', encoding='utf-8') as file_object:
+		entity_rel = json.load(file_object)
+
+	neo4j = Neo4j(ip=conn['ip'], password=conn['password'])
+	neo4j.crate_graph(entity_info, entity_rel)
+
+
 if __name__ == '__main__':
-	cnc_entity_info_extract()
+	cnc_save()
