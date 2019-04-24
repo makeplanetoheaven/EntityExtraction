@@ -31,7 +31,6 @@
 　　**提取码**：9isc
 　　
 # 4.代码介绍（代码持续更新）
-**github:**https://github.com/makeplanetoheaven/EntityExtraction
 ## 4.1 实体，实体关系爬取
 ### 4.1.1 地理位置域
 　　**（1）中国各城市实体、以及实体间关系（首都，省会，属于，包含）数据**
