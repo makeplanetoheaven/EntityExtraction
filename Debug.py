@@ -53,7 +53,7 @@ def cnc_save () -> None:
 		conn = json.load(file_object)
 	with open('./CacheData/GeographicalDomain/China/City/EntityInfo.json', 'r', encoding='utf-8') as file_object:
 		entity_info = json.load(file_object)
-	with open('./CacheData/GeographicalDomain/China/City/EntityInfo.json', 'r', encoding='utf-8') as file_object:
+	with open('./CacheData/GeographicalDomain/China/City/EntityRel.json', 'r', encoding='utf-8') as file_object:
 		entity_rel = json.load(file_object)
 
 	neo4j = Neo4j(ip=conn['ip'], password=conn['password'])
