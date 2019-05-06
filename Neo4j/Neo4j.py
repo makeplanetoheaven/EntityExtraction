@@ -43,7 +43,7 @@ class Neo4j:
                 relation.update(rel[1]['property'])
             sub_graph = sub_graph | relation
 
-        print('开始存储实体关系！')
+        print('开始存储子图！')
         self.graph.create(sub_graph)
 
     def connect_graph(self):
