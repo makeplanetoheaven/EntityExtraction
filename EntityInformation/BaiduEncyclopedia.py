@@ -1,6 +1,7 @@
 # coding=utf-8
 
 # 引入外部库
+import re
 from bs4 import BeautifulSoup
 
 # 引入内部库
@@ -19,15 +20,17 @@ def entity_info_extract (entity_property: dict) -> None:
 	"""
 	page_content = GetHttp().get_page_content(URL + entity_property['name'], 3, charset='utf-8')
 	soup = BeautifulSoup(page_content, 'html.parser')
+
 	# summary
 	summary = ''
 	summary_tag = soup.find(attrs={'class': 'lemma-summary'})
 	if summary_tag:
 		for para in summary_tag.find_all(attrs={'class': 'para'}):
-			summary += para.text.replace('\n', '').replace(' ', '').replace('[.*?]', '')
+			summary += re.sub("[\[0-90-9\]]", "", para.text.replace('\n', '').replace(' ', ''))
 		entity_property['介绍'] = summary
 	else:
 		print('实体[%s]介绍缺失！' % entity_property['name'])
+
 	# basic info
 	basic_info_tag = soup.find(attrs={'class': 'basic-info'})
 	if basic_info_tag:
