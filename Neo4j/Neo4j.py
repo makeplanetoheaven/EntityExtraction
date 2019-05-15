@@ -46,5 +46,5 @@ class Neo4j:
         print('开始存储子图！')
         self.graph.create(sub_graph)
 
-    def connect_graph(self):
+    def add_graph(self):
         pass
