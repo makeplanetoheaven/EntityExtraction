@@ -26,7 +26,7 @@ def entity_info_extract (entity_property: dict) -> None:
 	summary_tag = soup.find(attrs={'class': 'lemma-summary'})
 	if summary_tag:
 		for para in summary_tag.find_all(attrs={'class': 'para'}):
-			summary += re.sub("[\[0-90-9\]]", "", para.text.replace('\n', '').replace(' ', ''))
+			summary += para.text.replace('\n', '').replace(' ', '')
 		entity_property['介绍'] = summary
 	else:
 		print('实体[%s]介绍缺失！' % entity_property['name'])

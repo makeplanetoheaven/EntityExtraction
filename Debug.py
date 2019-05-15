@@ -14,7 +14,7 @@ from Neo4j.Neo4j import *
 
 def cnc_entity_rel_extract () -> None:
 	"""
-	实体关系抽取
+	中国城市实体关系抽取
 	:return: None
 	"""
 	result_dict = {}
@@ -30,13 +30,13 @@ def cnc_entity_rel_extract () -> None:
 
 	with open('./CacheData/GeographicalDomain/China/City/EntityInfo.json', 'w', encoding='utf-8') as file_object:
 		json.dump(entity_info, file_object, ensure_ascii=False, indent=2)
-	with open('./CacheData/GeographicalDomain/China/City/EntityInfo.json', 'w', encoding='utf-8') as file_object:
+	with open('./CacheData/GeographicalDomain/China/City/EntityRel.json', 'w', encoding='utf-8') as file_object:
 		json.dump(entity_rel, file_object, ensure_ascii=False, indent=2)
 
 
 def cnc_entity_info_extract () -> None:
 	"""
-	实体信息抽取（无多义词）
+	中国城市实体信息抽取（无多义词）
 	:return: None
 	"""
 	with open('./CacheData/GeographicalDomain/China/City/EntityInfo.json', 'r', encoding='utf-8') as file_object:
@@ -61,22 +61,19 @@ def cnc_save () -> None:
 	neo4j.crate_graph(entity_info, entity_rel)
 
 
-def cna_entity_rel_extract () -> None:
+def cna_entity_extract () -> None:
 	"""
-	实体关系抽取
+	中国机场实体信息及关系抽取
 	:return: None
 	"""
-	result_dict = {}
-	get_airport(result_dict)
-	# entity_info, entity_rel = format_conversion(result_dict)
+	entity_info_list, entity_rel = get_airport()
+	for entity_info in entity_info_list:
+		entity_info_extract(entity_info['property'])
 
-	del result_dict
-	gc.collect()
-    #
-	# with open('./CacheData/GeographicalDomain/China/City/EntityInfo.json', 'w', encoding='utf-8') as file_object:
-	# 	json.dump(entity_info, file_object, ensure_ascii=False, indent=2)
-	# with open('./CacheData/GeographicalDomain/China/City/EntityInfo.json', 'w', encoding='utf-8') as file_object:
-	# 	json.dump(entity_rel, file_object, ensure_ascii=False, indent=2)
+	with open('./CacheData/GeographicalDomain/China/Airport/EntityInfo.json', 'w', encoding='utf-8') as file_object:
+		json.dump(entity_info_list, file_object, ensure_ascii=False, indent=2)
+	with open('./CacheData/GeographicalDomain/China/Airport/EntityRel.json', 'w', encoding='utf-8') as file_object:
+		json.dump(entity_rel, file_object, ensure_ascii=False, indent=2)
 
 if __name__ == '__main__':
-	cna_entity_rel_extract()
+	cna_entity_extract()
