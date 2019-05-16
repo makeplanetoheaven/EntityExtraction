@@ -46,5 +46,46 @@ class Neo4j:
         print('开始存储子图！')
         self.graph.create(sub_graph)
 
-    def add_graph(self):
+    def add_graph(self, entity_info: list, entity_rel: list)->None:
+        """
+        根据所传入的实体信息链表和实体关系三元组链表，
+        在已有实体的基础上，增加新的实体，及实体间关系。
+        :param entity_info: element: {type: str, property: dict}
+        :param entity_rel: element: (n1_index/n1_str, {name: str, property: dict}, n2_index/n2_str)
+        :return: None
+        """
+        sub_graph = None
+        nodes = {}
+        index = 0
+
+        print('开始创建新的实体节点！')
+        for info in entity_info:
+            node = Node(info['type'], name=info['property']['name'])
+            node.update(info['property'])
+            nodes[index] = node
+            index += 1
+            if sub_graph is None:
+                sub_graph = node
+            else:
+                sub_graph = sub_graph | node
+
+        print('开始创建已有实体和新实体间关系！')
+        for rel in entity_rel:
+            if isinstance(str, rel[0]):
+                node1 = self.graph.data("MATCH (n) WHERE n.name='"+rel[0]+"' return n")
+            else:
+                node1 = nodes[rel[0]]
+            if isinstance(str, rel[2]):
+                node2 = self.graph.data("MATCH (n) WHERE n.name='"+rel[2]+"' return n")
+            else:
+                node2 = nodes[rel[2]]
+            relation = Relationship(node1, rel[1]['name'], node2)
+            if 'property' in rel[1]:
+                relation.update(rel[1]['property'])
+            sub_graph = sub_graph | relation
+
+        print('开始存储子图！')
+        self.graph.create(sub_graph)
+
+    def update_graph(self):
         pass
