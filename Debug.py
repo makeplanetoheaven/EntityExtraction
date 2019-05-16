@@ -75,5 +75,17 @@ def cna_entity_extract () -> None:
 	with open('./CacheData/GeographicalDomain/China/Airport/EntityRel.json', 'w', encoding='utf-8') as file_object:
 		json.dump(entity_rel, file_object, ensure_ascii=False, indent=2)
 
+
+def cna_save () -> None:
+	with open('./conn_info.json', 'r', encoding='utf-8') as file_object:
+		conn = json.load(file_object)
+	with open('./CacheData/GeographicalDomain/China/Airport/EntityInfo.json', 'r', encoding='utf-8') as file_object:
+		entity_info = json.load(file_object)
+	with open('./CacheData/GeographicalDomain/China/Airport/EntityRel.json', 'r', encoding='utf-8') as file_object:
+		entity_rel = json.load(file_object)
+
+	neo4j = Neo4j(ip=conn['ip'], password=conn['password'])
+	neo4j.add_graph(entity_info, entity_rel)
+
 if __name__ == '__main__':
-	cna_entity_extract()
+	cna_save()
