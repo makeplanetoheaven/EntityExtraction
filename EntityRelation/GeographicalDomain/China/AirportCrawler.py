@@ -1,7 +1,6 @@
 # coding=utf-8
 
 # 引入外部库
-import jieba
 import re
 from bs4 import BeautifulSoup
 

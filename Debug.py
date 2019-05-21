@@ -8,6 +8,7 @@ import gc
 # 引入内部库
 from EntityRelation.GeographicalDomain.China.CityCrawler import *
 from EntityRelation.GeographicalDomain.China.AirportCrawler import *
+from EntityRelation.GeographicalDomain.China.TrainStationCrawler import *
 from EntityInformation.BaiduEncyclopedia import *
 from Neo4j.Neo4j import *
 
@@ -87,5 +88,20 @@ def cna_save () -> None:
 	neo4j = Neo4j(ip=conn['ip'], password=conn['password'])
 	neo4j.add_graph(entity_info, entity_rel)
 
+
+def cnt_entity_extract () -> None:
+	"""
+	中国火车站实体信息及关系抽取
+	:return: None
+	"""
+	entity_info_list, entity_rel = get_train_station()
+	for entity_info in entity_info_list:
+		entity_info_extract(entity_info['property'])
+
+	with open('./CacheData/GeographicalDomain/China/TrainStation/EntityInfo.json', 'w', encoding='utf-8') as file_object:
+		json.dump(entity_info_list, file_object, ensure_ascii=False, indent=2)
+	with open('./CacheData/GeographicalDomain/China/TrainStation/EntityRel.json', 'w', encoding='utf-8') as file_object:
+		json.dump(entity_rel, file_object, ensure_ascii=False, indent=2)
+
 if __name__ == '__main__':
-	cna_save()
+	cnt_entity_extract()
