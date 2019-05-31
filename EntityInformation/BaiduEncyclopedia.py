@@ -37,7 +37,10 @@ def entity_info_extract (entity_property: dict) -> None:
 		name_list = basic_info_tag.find_all(attrs={'class': 'name'})
 		value_list = basic_info_tag.find_all(attrs={'class': 'value'})
 		for i in range(len(name_list)):
-			entity_property[name_list[i].text.replace('\n', '').replace(' ', '')] = \
-				value_list[i].text.replace('\n', '').replace(' ', '')
+			name = name_list[i].text.replace('\n', '').replace(' ', '')
+			value = value_list[i].text.replace('\n', '').replace(' ', '')
+			if name != '':
+				entity_property[name] = value
+
 	else:
 		print('实体[%s]基本属性缺失！' % entity_property['name'])

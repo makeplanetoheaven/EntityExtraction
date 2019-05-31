@@ -13,6 +13,11 @@ city_type = ['省', '市', '区', '县', '镇', '盟', '旗', '乡', '州']
 
 
 def get_airport() -> [list, list]:
+    """
+    获取中国所有机场实体及其与各城市间关系
+    关系类型：位于
+    :return: entity_info：实体信息列表，entity_rel：实体关系三元组列表
+    """
     page_content = GetHttp().get_page_content(URL, 3, charset='utf-8')
     entity_info = []
     entity_rel = []
