@@ -20,22 +20,82 @@
 　　实体属性存储通过一个链表（list）来完成，链表中的每一个元素是一个字典(dict)，该字典只包含两个key，一个是实体的类型（type）,另外一个是实体属性（property），实体属性也是一个字典，字典中的每一个key代表实体的一个属性，对应的value代表相应属性值。整个链表最终以json格式存储。其结构如下图：
 　　![在这里插入图片描述](https://img-blog.csdnimg.cn/2019042416274737.?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI4Mzg1NTM1,size_16,color_FFFFFF,t_70)
 　　**（2）实体间关系存储**
-　　实体间关系存储是通过一个实体关系三元组链表（list(list)）来完成，链表中的每一个元素是一个实体关系三元组：**[实体1，关系，实体2]**。其中，实体1，实体2分别是实体在实体信息链表里面的位置索引，关系是一个字典，该字典包含两个key，一个是关系的名字（name）,另外一个是关系属性（property）。整个链表最终以json格式存储。其结构如下图：
+　　实体间关系存储是通过一个实体关系三元组链表（list(list)）来完成，链表中的每一个元素是一个实体关系三元组：
+　　**[实体1，关系，实体2]**。
+　　其中，实体1，实体2分别是实体在实体信息链表里面的位置索引，关系是一个字典，该字典包含两个key，一个是关系的名字（name）,另外一个是关系属性（property）。整个链表最终以json格式存储。其结构如下图：
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/20190424163056538.)
 # 3.数据集介绍（数据持续更新）
 　　目前已有的数据如下：
-## 3.1 地理位置域
-　　**（1）中国各城市实体、实体信息，以及实体间关系（首都，省会，属于，包含）数据**
-　　**数据量**：70W+城市实体，350M实体信息，120M实体关系
-　　**链接**：https://pan.baidu.com/s/1q_Ji58A2tN9dtY3tg4Be_w
-　　**提取码**：9isc
-　　
+<table>
+    <tr>
+        <th>域</th>
+        <th>实体类型</th>
+        <th>关系类型</th>
+        <th>数据量</th>
+        <th>下载链接</th>
+        <th>提取码</th>
+   </tr>
+    <tr>
+        <td rowspan='3'>地理位置域</td>
+        <td>中国城市</td>
+        <td>首都，省会，属于，包含，直辖市</td>
+        <td>70W+城市实体</td>
+        <td><a> https://pan.baidu.com/s/1q_Ji58A2tN9dtY3tg4Be_w </a></td>
+        <td>9isc</td>
+    </tr>
+    <tr>
+        <td>中国飞机场</td>
+        <td>位于</td>
+        <td>298个机场实体</td>
+        <td><a> https://pan.baidu.com/s/1g7RuL7GnTIRcqorn9tjVMg </a></td>
+        <td>gy7f</td>
+    </tr>
+    <tr>
+        <td>中国火车站</td>
+        <td>位于</td>
+        <td>1022个火车站实体</td>
+        <td><a> https://pan.baidu.com/s/1t8nbt4OsHjIcCq8o7BCOhA</a> </td>
+        <td>jrm2</td>
+    </tr>
+</table>
+
 # 4.代码介绍（代码持续更新）
-## 4.1 实体，实体关系爬取
-### 4.1.1 地理位置域
-　　**（1）中国各城市实体、以及实体间关系（首都，省会，属于，包含）数据**
-　　中国各城市实体、以及实体间关系的爬取，是通过国家统计局（[http://www.stats.gov.cn/tjsj/tjbz/tjyqhdmhcxhfdm/2018/](http://www.stats.gov.cn/tjsj/tjbz/tjyqhdmhcxhfdm/2018/)）进行实体及其关系的爬取。代码目录位于`./EntityRelation/GeographicalDomain/China/CityCrawler.py`。调用顺序如下：
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20190424165033255.?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI4Mzg1NTM1,size_16,color_FFFFFF,t_70)
+**github**:https://github.com/makeplanetoheaven/EntityExtraction
+## 4.1 实体及实体间关系爬取
+目前已有代码内容如下
+<table>
+    <tr>
+        <th>域</th>
+        <th>实体类型</th>
+        <th>关系类型</th>
+        <th>抽取网站</th>
+        <th>代码位置</th>
+        <th>调用位置</th>
+   </tr>
+    <tr>
+        <td rowspan='3'>地理位置域</td>
+        <td>中国城市</td>
+        <td>首都，省会，属于，包含，直辖市</td>
+        <td><a>http://www.stats.gov.cn/tjsj/tjbz/tjyqhdmhcxhfdm/2018/</a></td>
+        <td>./EntityRelation/GeographicalDomain/China/CityCrawler</td>
+        <td>./Debug</td>
+    </tr>
+    <tr>
+        <td>中国飞机场</td>
+        <td>位于</td>
+        <td><a>https://baike.baidu.com/item/%E6%9C%BA%E5%9C%BA/74273</a></td>
+        <td>./EntityRelation/GeographicalDomain/China/AirportCrawler</td>
+        <td>./Debug</td>
+    </tr>
+    <tr>
+        <td>中国火车站</td>
+        <td>位于</td>
+        <td><a>http://hcp.bendibao.com/station.html</a></td>
+        <td>./EntityRelation/GeographicalDomain/China/TrainStationCrawle </td>
+        <td>./Debug</td>
+    </tr>
+</table>
+
 ## 4.2 实体信息爬取
 ### 4.2.1 基于百度百科的实体信息抽取
 　　基于百度百科的实体信息抽取，主要是通过爬取百科中相应实体的基本介绍，基本属性，来作为实体属性进行存储。代码目录位于`./EntityInformation/BaiduEncyclopedia.py`。代码如下：

@@ -104,7 +104,7 @@ def cnt_entity_extract () -> None:
 		json.dump(entity_rel, file_object, ensure_ascii=False, indent=2)
 
 
-def cnt_entity_save () -> None:
+def cnt_save () -> None:
 	with open('./conn_info.json', 'r', encoding='utf-8') as file_object:
 		conn = json.load(file_object)
 	with open('./CacheData/GeographicalDomain/China/TrainStation/EntityInfo.json', 'r', encoding='utf-8') as file_object:
@@ -117,3 +117,4 @@ def cnt_entity_save () -> None:
 
 if __name__ == '__main__':
 	cna_save()
+	cnt_save()
