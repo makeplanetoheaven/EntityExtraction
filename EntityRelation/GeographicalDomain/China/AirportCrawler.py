@@ -45,12 +45,12 @@ def get_airport() -> [list, list]:
                 if '营口兰旗机场' in airport:
                     airport.replace('营口兰旗机场', '')
                     entity_info.append({'type': '机场', 'property': {'name': '营口兰旗机场', '域': '地理位置域', 'id': 'CNA' + str(index)}})
-                    entity_rel.append([index, '位于', pos.pop()])
+                    entity_rel.append([index, {'name': '位于', 'property': {}}, pos.pop()])
                     pos.pop()
                     index += 1
                 entity_info.append(
                     {'type': '机场', 'property': {'name': airport, '域': '地理位置域', 'id': 'CNA' + str(index)}})
-                entity_rel.append([index, '位于', pos[-1].replace('、', '')])
+                entity_rel.append([index, {'name': '位于', 'property': {}}, pos[-1].replace('、', '')])
                 index += 1
 
     return entity_info, entity_rel

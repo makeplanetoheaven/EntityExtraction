@@ -14,7 +14,7 @@ from EntityInformation.BaiduEncyclopedia import *
 from Neo4j.Neo4j import *
 
 
-def cnc_entity_rel_extract () -> None:
+def cnc_entity_extract () -> None:
 	"""
 	中国城市实体关系抽取
 	:return: None
@@ -25,30 +25,18 @@ def cnc_entity_rel_extract () -> None:
 	get_county(result_dict)
 	get_town(result_dict)
 	get_village(result_dict)
-	entity_info, entity_rel = format_conversion(result_dict)
+	entity_info_list, entity_rel = format_conversion(result_dict)
 
 	del result_dict
 	gc.collect()
-
-	with open('./CacheData/GeographicalDomain/China/City/EntityInfo.json', 'w', encoding='utf-8') as file_object:
-		json.dump(entity_info, file_object, ensure_ascii=False, indent=2)
-	with open('./CacheData/GeographicalDomain/China/City/EntityRel.json', 'w', encoding='utf-8') as file_object:
-		json.dump(entity_rel, file_object, ensure_ascii=False, indent=2)
-
-
-def cnc_entity_info_extract () -> None:
-	"""
-	中国城市实体信息抽取（无多义词）
-	:return: None
-	"""
-	with open('./CacheData/GeographicalDomain/China/City/EntityInfo.json', 'r', encoding='utf-8') as file_object:
-		entity_info_list = json.load(file_object)
 
 	for entity_info in entity_info_list:
 		entity_info_extract(entity_info['property'])
 
 	with open('./CacheData/GeographicalDomain/China/City/EntityInfo.json', 'w', encoding='utf-8') as file_object:
 		json.dump(entity_info_list, file_object, ensure_ascii=False, indent=2)
+	with open('./CacheData/GeographicalDomain/China/City/EntityRel.json', 'w', encoding='utf-8') as file_object:
+		json.dump(entity_rel, file_object, ensure_ascii=False, indent=2)
 
 
 def cnc_save () -> None:
@@ -144,4 +132,6 @@ def cnr_save () -> None:
 	neo4j.add_graph(entity_info, entity_rel)
 
 if __name__ == '__main__':
-	cnr_entity_extract()
+	cna_save()
+	cnt_save()
+	cnr_save()

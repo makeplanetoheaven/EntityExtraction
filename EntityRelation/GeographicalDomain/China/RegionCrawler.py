@@ -39,8 +39,8 @@ def get_region () -> [list, list]:
             city_list = region_dict[region]
             entity_info.append({'type': '区域', 'property': {'name': region, "域": "地理位置域", "id": "CNR" + str(index)}})
             for city in city_list:
-                entity_rel.append([index, '包含', city])
-                entity_rel.append([city, '属于', index])
+                entity_rel.append([index, {'name': '包含', 'property': {}}, city])
+                entity_rel.append([city, {'name': '属于', 'property': {}}, index])
             index += 1
 
     return entity_info, entity_rel

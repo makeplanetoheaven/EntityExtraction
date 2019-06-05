@@ -32,7 +32,7 @@ def get_train_station() -> [list, list]:
                     train_station = train_a.text + '站'
                     entity_info.append(
                         {'type': '火车站', 'property': {'name': train_station, '域': '地理位置域', 'id': 'CNT' + str(index)}})
-                    entity_rel.append([index, '位于', city])
+                    entity_rel.append([index, {'name': '位于', 'property': {}}, city])
                     index += 1
 
     return entity_info, entity_rel
