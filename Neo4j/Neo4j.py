@@ -12,6 +12,7 @@ class Neo4j:
 		# Neo4j数据库连接
 		self.graph = Graph(host=ip, password=password, user=user, http_port=http_port, https_port=https_port,
 		                   bolt_port=bolt_port)
+		self.node_matcher = NodeMatcher(self.graph)
 
 	def crate_graph (self, entity_info: list, entity_rel: list) -> None:
 		"""
@@ -62,13 +63,13 @@ class Neo4j:
 		for rel in tqdm(entity_rel):
 			# 判断实体1类型
 			if isinstance(rel[0], str):
-				node1 = self.graph.run("MATCH (n) WHERE n.name='" + rel[0] + "' return n")
+				node1 = self.node_matcher.match(name=rel[0])
 			else:
 				node1 = nodes[rel[0]]
 
 			# 判断实体2类型
 			if isinstance(rel[2], str):
-				node2 = self.graph.run("MATCH (n) WHERE n.name='" + rel[2] + "' return n")
+				node2 = self.node_matcher.match(name=rel[2]).first()
 			else:
 				node2 = nodes[rel[2]]
 
