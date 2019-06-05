@@ -2,7 +2,7 @@
 
 # 引入外部库
 from py2neo import *
-
+from tqdm import tqdm
 
 # 引入内部库
 
@@ -25,7 +25,7 @@ class Neo4j:
 		index = 0
 
 		print('开始创建实体节点！')
-		for info in entity_info:
+		for info in tqdm(entity_info):
 			node = Node(info['type'], name=info['property']['name'])
 			node.update(info['property'])
 			nodes[index] = node
@@ -33,7 +33,7 @@ class Neo4j:
 			index += 1
 
 		print('开始创建实体间关系！')
-		for rel in entity_rel:
+		for rel in tqdm(entity_rel):
 			relation = Relationship(nodes[rel[0]], rel[1]['name'], nodes[rel[2]])
 			relation.update(rel[1]['property'])
 			self.graph.create(relation)
@@ -51,7 +51,7 @@ class Neo4j:
 		index = 0
 
 		print('开始创建新的实体节点！')
-		for info in entity_info:
+		for info in tqdm(entity_info):
 			node = Node(info['type'], name=info['property']['name'])
 			node.update(info['property'])
 			nodes[index] = node
@@ -59,22 +59,22 @@ class Neo4j:
 			index += 1
 
 		print('开始创建已有实体和新实体间关系！')
-		for rel in entity_rel:
+		for rel in tqdm(entity_rel):
 			# 判断实体1类型
 			if isinstance(rel[0], str):
-				node1 = self.graph.data("MATCH (n) WHERE n.name='" + rel[0] + "' return n")
+				node1 = self.graph.run("MATCH (n) WHERE n.name='" + rel[0] + "' return n")
 			else:
 				node1 = nodes[rel[0]]
 
 			# 判断实体2类型
-			if isinstance(str, rel[2]):
-				node2 = self.graph.data("MATCH (n) WHERE n.name='" + rel[2] + "' return n")
+			if isinstance(rel[2], str):
+				node2 = self.graph.run("MATCH (n) WHERE n.name='" + rel[2] + "' return n")
 			else:
 				node2 = nodes[rel[2]]
 
 			# 创建实体关系对象
 			if node1 is not None and node2 is not None:
-				relation = Relationship(nodes[rel[0]], rel[1]['name'], nodes[rel[2]])
+				relation = Relationship(node1, rel[1]['name'], node2)
 				relation.update(rel[1]['property'])
 				self.graph.create(relation)
 
