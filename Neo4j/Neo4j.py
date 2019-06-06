@@ -63,7 +63,7 @@ class Neo4j:
 		for rel in tqdm(entity_rel):
 			# 判断实体1类型
 			if isinstance(rel[0], str):
-				node1 = self.node_matcher.match(name=rel[0])
+				node1 = self.node_matcher.match(name=rel[0]).first()
 			else:
 				node1 = nodes[rel[0]]
 
