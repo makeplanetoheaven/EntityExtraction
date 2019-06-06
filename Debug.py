@@ -132,6 +132,4 @@ def cnr_save () -> None:
 	neo4j.add_graph(entity_info, entity_rel)
 
 if __name__ == '__main__':
-	cna_save()
-	cnt_save()
-	cnr_save()
+	cnt_entity_extract()

@@ -24,7 +24,7 @@ def get_train_station() -> [list, list]:
         index = 0
         for city_list in soup.find_all(attrs={'class': 'citylist'}):
             for city_a in city_list.find_all('a'):
-                city = city_a.text
+                city = city_a.text + '市'
                 train_list = BeautifulSoup(
                     GetHttp().get_page_content(URL.replace('/station.html', '') + city_a.get('href'), 3),
                     'html.parser').find(attrs={'class': 'onecity'})
