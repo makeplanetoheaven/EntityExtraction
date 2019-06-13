@@ -1,11 +1,10 @@
 # coding=utf-8
 
-
-# 引入外部库
 import json
 import gc
 
-# 引入内部库
+# <editor-fold desc="GeographicalDomain">
+# <editor-fold desc="GeographicalDomain-China-Debug">
 from EntityRelation.GeographicalDomain.China.CityCrawler import *
 from EntityRelation.GeographicalDomain.China.AirportCrawler import *
 from EntityRelation.GeographicalDomain.China.TrainStationCrawler import *
@@ -87,7 +86,8 @@ def cnt_entity_extract () -> None:
 	for entity_info in entity_info_list:
 		entity_info_extract(entity_info['property'])
 
-	with open('./CacheData/GeographicalDomain/China/TrainStation/EntityInfo.json', 'w', encoding='utf-8') as file_object:
+	with open('./CacheData/GeographicalDomain/China/TrainStation/EntityInfo.json', 'w',
+	          encoding='utf-8') as file_object:
 		json.dump(entity_info_list, file_object, ensure_ascii=False, indent=2)
 	with open('./CacheData/GeographicalDomain/China/TrainStation/EntityRel.json', 'w', encoding='utf-8') as file_object:
 		json.dump(entity_rel, file_object, ensure_ascii=False, indent=2)
@@ -96,7 +96,8 @@ def cnt_entity_extract () -> None:
 def cnt_save () -> None:
 	with open('./conn_info.json', 'r', encoding='utf-8') as file_object:
 		conn = json.load(file_object)
-	with open('./CacheData/GeographicalDomain/China/TrainStation/EntityInfo.json', 'r', encoding='utf-8') as file_object:
+	with open('./CacheData/GeographicalDomain/China/TrainStation/EntityInfo.json', 'r',
+	          encoding='utf-8') as file_object:
 		entity_info = json.load(file_object)
 	with open('./CacheData/GeographicalDomain/China/TrainStation/EntityRel.json', 'r', encoding='utf-8') as file_object:
 		entity_rel = json.load(file_object)
@@ -131,5 +132,9 @@ def cnr_save () -> None:
 	neo4j = Neo4j(ip=conn['ip'], password=conn['password'])
 	neo4j.add_graph(entity_info, entity_rel)
 
+
+# </editor-fold >
+# </editor-fold >
+
 if __name__ == '__main__':
-	cnt_entity_extract()
+	cnt_save()
