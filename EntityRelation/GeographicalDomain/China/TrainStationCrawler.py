@@ -25,6 +25,15 @@ def get_train_station() -> [list, list]:
         for city_list in soup.find_all(attrs={'class': 'citylist'}):
             for city_a in city_list.find_all('a'):
                 city = city_a.text + '市'
+                if '黔西南' in city:
+                    city = '黔西南布依族苗族自治州'
+                elif '黔东南' in city:
+                    city = '黔东南苗族侗族自治州'
+                elif '黔南' in city:
+                    city = '黔南布依族苗族自治州'
+                elif '西双版纳' in city:
+                    city = '西双版纳傣族自治州'
+
                 train_list = BeautifulSoup(
                     GetHttp().get_page_content(URL.replace('/station.html', '') + city_a.get('href'), 3),
                     'html.parser').find(attrs={'class': 'onecity'})
