@@ -14,9 +14,9 @@
 　　关系属性描述了一个关系所具有的特征，例如关系建立的时间，关系的重要性（权值）等。\
 　　**（7）属性值**\
 　　属性值是用来描述一个实体或关系的具体信息，可以分为文本型和数值型。
-# 2.数据类型介绍
+# 2.数据类型介绍``
 　　知识图谱数据的存储，主要分为两个部分：\
-　　**（1) 实体属性存储**\
+　　**（1）实体属性存储**\
 　　实体属性存储通过一个链表（list）来完成，链表中的每一个元素是一个字典(dict)，该字典只包含两个key，一个是实体的类型（type）,另外一个是实体属性（property），实体属性也是一个字典，字典中的每一个key代表实体的一个属性，对应的value代表相应属性值。整个链表最终以json格式存储。其结构如下图：\
 　　![在这里插入图片描述](https://img-blog.csdnimg.cn/2019042416274737.?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI4Mzg1NTM1,size_16,color_FFFFFF,t_70)
 　　**（2）实体间关系存储**\
@@ -98,9 +98,9 @@
 
 ## 4.2 实体信息爬取
 ### 4.2.1 基于百度百科的实体信息抽取
-　　基于百度百科的实体信息抽取，主要是通过爬取百科中相应实体的基本介绍，基本属性，来作为实体属性进行存储。代码目录位于`./EntityInformation/BaiduEncyclopedia.py`。代码如下：
+　　基于百度百科的实体信息抽取，主要是通过爬取百科中相应实体的基本介绍，基本属性，来作为实体属性进行存储。代码目录位于`./EntityInformation/BaiduEncyclopedia.py`。代码如下：\
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/20190424165354559.?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI4Mzg1NTM1,size_16,color_FFFFFF,t_70)
 ## 4.3 数据存储到图数据库Neo4j
 　　本项目提供连接到图数据，并将爬取到数据存储到图数据库的接口，代码目录位于`./Neo4j/Neo4j.py`。通过创建一个Neo4j对象，输入相应链接信息（用户名，密码，端口等）后，即可调用相应函数进行操作。
-　　**（1）数据存储到图数据库调用顺序如下**
+　　**（1）数据存储到图数据库调用顺序如下**\
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/20190424170209685.)
