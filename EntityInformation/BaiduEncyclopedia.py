@@ -41,6 +41,5 @@ def entity_info_extract (entity_property: dict) -> None:
 			value = value_list[i].text.replace('\n', '').replace(' ', '')
 			if name != '':
 				entity_property[name] = value
-
 	else:
 		print('实体[%s]基本属性缺失！' % entity_property['name'])

@@ -9,6 +9,7 @@ from EntityRelation.GeographicalDomain.China.CityCrawler import *
 from EntityRelation.GeographicalDomain.China.AirportCrawler import *
 from EntityRelation.GeographicalDomain.China.TrainStationCrawler import *
 from EntityRelation.GeographicalDomain.China.RegionCrawler import *
+from EntityRelation.GeographicalDomain.China.MountainCrawler import *
 from EntityInformation.BaiduEncyclopedia import *
 from Neo4j.Neo4j import *
 
@@ -133,8 +134,29 @@ def cnr_save () -> None:
 	neo4j.add_graph(entity_info, entity_rel)
 
 
+def cnm_entity_extract () -> None:
+	"""
+	中国山脉实体信息及关系抽取
+	:return: None
+	"""
+	entity_info_list, entity_rel = get_mountain()
+
+
+
+def cnm_save () -> None:
+	with open('./conn_info.json', 'r', encoding='utf-8') as file_object:
+		conn = json.load(file_object)
+	with open('./CacheData/GeographicalDomain/China/Region/EntityInfo.json', 'r', encoding='utf-8') as file_object:
+		entity_info = json.load(file_object)
+	with open('./CacheData/GeographicalDomain/China/Region/EntityRel.json', 'r', encoding='utf-8') as file_object:
+		entity_rel = json.load(file_object)
+
+	neo4j = Neo4j(ip=conn['ip'], password=conn['password'])
+	neo4j.add_graph(entity_info, entity_rel)
+
+
 # </editor-fold >
 # </editor-fold >
 
 if __name__ == '__main__':
-	cnt_save()
+	cnm_entity_extract()
