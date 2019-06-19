@@ -142,7 +142,6 @@ def cnm_entity_extract () -> None:
 	entity_info_list, entity_rel = get_mountain()
 
 
-
 def cnm_save () -> None:
 	with open('./conn_info.json', 'r', encoding='utf-8') as file_object:
 		conn = json.load(file_object)
